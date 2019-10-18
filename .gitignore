@@ -1,0 +1,6 @@
+puzzle_unsolved.bin
+puzzle_solved.bin
+puzzle_solved.txt
+project/target
+target
+__pycache__
