@@ -2,6 +2,7 @@ import java.io.FileOutputStream
 import java.nio.file.{Files, Paths}
 
 import neighbors.Result
+import output.SolvedResult
 
 object FileHandlerScala {
   def ParsePuzzles():List[Board] = {
@@ -62,26 +63,18 @@ object FileHandlerScala {
   
   
   def WriteOutput(boards:List[Board], filename:String):Unit = {
-      var result = Result()
-  
-  for(board <- boards.reverse) {
-    var puzzle = neighbors.Puzzle()
+    var result = SolvedResult()
     
-    for(sq <- board.squares) {
-      var square = neighbors.Square()
+    for(board <- boards.reverse) {
+      var puzzle = output.PuzzleSolution().withSize(Math.sqrt(board.squares.size.asInstanceOf[Double]).asInstanceOf[Int])
       
-      if(sq.solved) {
-        square = square.withValue(sq.values(0))
-      } else {
-        square = square.withValue(0)
+      for(sq <- board.squares) {
+        puzzle = puzzle.addValues(sq.values(0))
       }
       
-      puzzle = puzzle.addSquares(square)
+      result = result.addPuzzles(puzzle)
     }
-    
-    result = result.addPuzzles(puzzle)
-  }
-
+  
     result.writeTo(new FileOutputStream(filename))
   }
 }

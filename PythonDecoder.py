@@ -1,25 +1,29 @@
-import neighbors_pb2
+import output_pb2
 import math
 
 def generate_puzzle_strings(result):
     puzzles = []
 
     for puzzle in result.puzzles:
-        size = int(math.sqrt(len(puzzle.squares)))
+        size = puzzle.size
+        print(f"Size: {size}")
 
         output = f"size {size}x{size}"
 
-        for index, square in enumerate(puzzle.squares):
+        
+        for index, value in enumerate(puzzle.values):
+            print(f"Value: {value}")
+            
             if index % size == 0:
-                output += "\n" + str(square.value) + " "
+                output += "\n" + str(value) + " "
             else:
-                output += str(square.value) + " "
+                output += str(value) + " "
         
         puzzles += output + "\n"
     
     return puzzles
 
-protocol_buffer = neighbors_pb2.Result()
+protocol_buffer = output_pb2.Result()
 
 with open("puzzle_solved.bin", "rb") as f:
     protocol_buffer.ParseFromString(f.read())
