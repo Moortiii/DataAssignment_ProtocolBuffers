@@ -1,0 +1,151 @@
+puzzles 14
+size 4x4
+1   _ x _ x _
+        x   x
+_ x _   _   _
+x   x        
+_   _ x _ x _
+        x   x
+_ x _   _   4
+size 5x5
+5   _ x _   _ x _
+        x   x    
+_ x _   _   _ x _
+x               x
+_   4   _   5   _
+    x   x       x
+_ x _   _   _ x _
+x                
+_ x _ x _   _ x _
+size 6x6
+1   _   _   _   _   _
+                     
+_   _   _   3   _   _
+    x   x       x   x
+_   _   _   _   _   _
+x   x       x       x
+_ x _   _ x _   _   _
+    x   x            
+_   _   _   _   _   _
+x                   x
+_ x _   _   6   3   _
+size 7x7
+_ x 5   _ x _ x 3   _ x _
+x   x   x   x       x    
+_ x _   _ x _   _ x _   _
+    x               x   x
+_   3   _ x _   _   5 x _
+x           x           x
+_   _   _   _   4   _   _
+        x   x            
+_   _   _ x _ x _   _ x _
+x   x           x   x   x
+_   _   _   _   _ x _   _
+            x            
+_   _ x _ x _   _ x _   _
+size 4x4
+4   _   _ x _
+        x   x
+_   _   _ x _
+x   x        
+_ x _ x _   1
+x   x        
+_ x _ x _   _
+size 5x5
+_ x _   _ x _   _
+    x   x        
+_   _   1   4   _
+x               x
+_ x _   _ x _ x _
+            x    
+_ x _   _   _ x _
+x   x   x       x
+_ x 2   _ x _   _
+size 6x6
+_   _ x _   _   _   _
+x   x   x           x
+_   _   _ x _   2 x _
+            x       x
+_   _   _   _ x 5   _
+x   x   x           x
+_ x _   _   6   _   _
+                x    
+_   _   _   _   _ x _
+x   x   x   x       x
+_   _ x _   _   1   _
+size 7x7
+2   _ x _   _ x _   _   _
+                        x
+_ x _   _ x _   _   _   _
+x       x       x   x    
+_   5 x _   1 x _   _   _
+                x       x
+_   _   _ x _   _ x _   _
+x   x       x       x   x
+_   _ x _   _   _   _   _
+x       x       x        
+_ x _   _   7 x _   1   _
+        x       x       x
+_   _   _ x _   5 x _   _
+size 4x4
+_   1   _ x _
+        x   x
+_   _   _ x _
+x   x        
+_ x _ x _   _
+x   x        
+_ x _ x _   4
+size 5x5
+_ x _   2   _   _
+x   x   x        
+_ x _   _ x _ x _
+            x   x
+_ x _   _   _ x _
+x   x   x       x
+_ x _ x _   1   _
+        x        
+_   _   _ x _   2
+size 6x6
+_ x _   _   _   _   _
+x   x       x   x    
+_   _   3   _   _   _
+x   x   x           x
+_   _   _   _ x _   _
+                     
+_ x _   _   1   _   _
+    x   x       x   x
+_   _   _   _ x _   _
+x   x   x   x        
+_   1   _   _   _   _
+size 7x7
+_   _   _ x _   _   _ x _
+            x       x   x
+_   _   5   3   _   _ x _
+x   x           x       x
+_   _   _ x _   _   _ x _
+x       x       x   x   x
+_   _ x _   _   _   _ x _
+                        x
+_   _   1   _   _   _ x _
+x   x           x   x   x
+_   _ x _   _ x _   _ x _
+                x       x
+_ x _   2   4 x _   _   _
+size 4x4
+4   _   _ x _
+        x   x
+_ x _ x _   _
+x   x        
+_ x _ x _   _
+        x   x
+_   4   _ x _
+size 5x5
+_ x _   _ x _   _
+            x   x
+_   _   _ x _   _
+x   x            
+_   _ x _   _   5
+        x   x    
+5   1   _   _ x _
+    x           x
+_ x _ x _   _ x _

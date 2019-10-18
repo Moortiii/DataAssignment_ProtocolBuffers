@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message Square {
+    int32 x = 1;
+    int32 y = 2;
+    int32 value = 3;
+
+    bool neighbor_right = 4;
+    bool neighbor_down = 7;
+}
+
+message Puzzle {
+    repeated Square squares = 2;
+}
+
+message Result {
+    repeated Puzzle puzzles = 1;
+}
