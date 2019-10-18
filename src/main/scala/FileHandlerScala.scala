@@ -13,9 +13,17 @@ object FileHandlerScala {
       val puzzle = Puzzle(Math.sqrt(p.squares.size.asInstanceOf[Double]).asInstanceOf[Int])
 
       var squares = List[Square]()
-
+      
+      var x = 0
+      var y = 0
+      
       for(sq <- p.squares) {
-        var square = Square(sq.x, sq.y, puzzle, if(sq.value == 0) (1 to puzzle.size).toList else List(sq.value))
+        if(x >= puzzle.size) {
+          x = 0
+          y += 1
+        }
+        
+        var square = Square(x, y, puzzle, if(sq.value == 0) (1 to puzzle.size).toList else List(sq.value))
 
         if(sq.neighborDown)
           square = square.addNeighbor(Direction.DOWN)
@@ -24,6 +32,8 @@ object FileHandlerScala {
           square = square.addNeighbor(Direction.RIGHT)
    
         squares :+= square
+        
+        x += 1
       }
       
       boards :+= Board(squares, puzzle)

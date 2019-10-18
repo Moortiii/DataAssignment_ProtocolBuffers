@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='in.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x08in.proto\"\\\n\x06Square\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\r\n\x05value\x18\x03 \x01(\x05\x12\x16\n\x0eneighbor_right\x18\x04 \x01(\x08\x12\x15\n\rneighbor_down\x18\x07 \x01(\x08\"\"\n\x06Puzzle\x12\x18\n\x07squares\x18\x02 \x03(\x0b\x32\x07.Square\"\"\n\x06Result\x12\x18\n\x07puzzles\x18\x01 \x03(\x0b\x32\x07.Puzzleb\x06proto3')
+  serialized_pb=_b('\n\x08in.proto\"F\n\x06Square\x12\r\n\x05value\x18\x03 \x01(\x05\x12\x16\n\x0eneighbor_right\x18\x04 \x01(\x08\x12\x15\n\rneighbor_down\x18\x07 \x01(\x08\"\"\n\x06Puzzle\x12\x18\n\x07squares\x18\x02 \x03(\x0b\x32\x07.Square\"\"\n\x06Result\x12\x18\n\x07puzzles\x18\x01 \x03(\x0b\x32\x07.Puzzleb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -34,35 +34,21 @@ _SQUARE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='x', full_name='Square.x', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='y', full_name='Square.y', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='Square.value', index=2,
+      name='value', full_name='Square.value', index=0,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='neighbor_right', full_name='Square.neighbor_right', index=3,
+      name='neighbor_right', full_name='Square.neighbor_right', index=1,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='neighbor_down', full_name='Square.neighbor_down', index=4,
+      name='neighbor_down', full_name='Square.neighbor_down', index=2,
       number=7, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -81,7 +67,7 @@ _SQUARE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=12,
-  serialized_end=104,
+  serialized_end=82,
 )
 
 
@@ -111,8 +97,8 @@ _PUZZLE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=106,
-  serialized_end=140,
+  serialized_start=84,
+  serialized_end=118,
 )
 
 
@@ -142,8 +128,8 @@ _RESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=142,
-  serialized_end=176,
+  serialized_start=120,
+  serialized_end=154,
 )
 
 _PUZZLE.fields_by_name['squares'].message_type = _SQUARE

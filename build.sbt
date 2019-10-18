@@ -2,7 +2,7 @@ name := "DataAssignment"
 
 version := "0.1"
 
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.0"
 
 PB.targets in Compile := Seq(
   scalapb.gen() -> (sourceManaged in Compile).value

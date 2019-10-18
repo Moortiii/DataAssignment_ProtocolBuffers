@@ -133,8 +133,6 @@ def parse_puzzle(puzzle, puzzle_buffer):
                 
                 numbers = numbers[1:]
 
-                square_buffer.x = c_index // 4
-                square_buffer.y = l_index // 2
                 square_buffer.neighbor_right = "RIGHT" in neighbors
                 square_buffer.neighbor_down  = "DOWN"  in neighbors
             

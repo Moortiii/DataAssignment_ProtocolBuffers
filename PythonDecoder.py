@@ -9,7 +9,6 @@ def generate_puzzle_strings(result):
         print(f"Size: {size}")
 
         output = f"size {size}x{size}"
-
         
         for index, value in enumerate(puzzle.values):
             print(f"Value: {value}")
