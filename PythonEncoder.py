@@ -1,5 +1,5 @@
 import re
-import neighbors_pb2
+import in_pb2
 
 # The parser for this looks ugly, but it's not stupid if it works
 
@@ -142,7 +142,7 @@ def parse_puzzle(puzzle, puzzle_buffer):
 
 puzzles = read_puzzle_file("puzzle_unsolved.txt")
 
-protocol_buffer = neighbors_pb2.Result()
+protocol_buffer = in_pb2.Result()
 
 for puzzle in puzzles:
     parse_puzzle(puzzle, protocol_buffer.puzzles.add())

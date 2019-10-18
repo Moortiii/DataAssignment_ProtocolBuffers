@@ -1,8 +1,8 @@
 import java.io.FileOutputStream
 import java.nio.file.{Files, Paths}
 
-import neighbors.Result
-import output.SolvedResult
+import in.Result
+import out.SolvedResult
 
 object FileHandlerScala {
   def ParsePuzzles():List[Board] = {
@@ -66,7 +66,7 @@ object FileHandlerScala {
     var result = SolvedResult()
     
     for(board <- boards.reverse) {
-      var puzzle = output.PuzzleSolution().withSize(Math.sqrt(board.squares.size.asInstanceOf[Double]).asInstanceOf[Int])
+      var puzzle = out.PuzzleSolution().withSize(Math.sqrt(board.squares.size.asInstanceOf[Double]).asInstanceOf[Int])
       
       for(sq <- board.squares) {
         puzzle = puzzle.addValues(sq.values(0))

@@ -1,4 +1,4 @@
-import output_pb2
+import out_pb2
 import math
 
 def generate_puzzle_strings(result):
@@ -23,7 +23,7 @@ def generate_puzzle_strings(result):
     
     return puzzles
 
-protocol_buffer = output_pb2.Result()
+protocol_buffer = out_pb2.SolvedResult()
 
 with open("puzzle_solved.bin", "rb") as f:
     protocol_buffer.ParseFromString(f.read())
