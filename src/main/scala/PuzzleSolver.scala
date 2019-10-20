@@ -10,11 +10,7 @@ object PuzzleSolver extends App {
         Solver.removeValuesBasedOnUnsolvedNeighbors
     )
 
-    // Uses the sources generated from --scala_out to parse the puzzles
     val boards:List[Board] = FileHandlerScala.ParsePuzzles()
-    
-    // Uses the sources generated from --java_out to parse the puzzles
-    //val boards:List[Board] = FileHandlerJava.ParsePuzzles()
     
     var solved:List[Board] = List[Board]()
     
@@ -33,9 +29,6 @@ object PuzzleSolver extends App {
 
     // Uses the sources generated from --scala_out to construct messages
     FileHandlerScala.WriteOutput(solved, "puzzle_solved.bin")
-    
-    // Uses the sources generated from --java_out to construct messages
-    //FileHandlerJava.WriteOutput(solved, "puzzle_solved.bin")
     
     println("Solved puzzles serialized and written to 'puzzle_solved.bin'. Terminating..")
 }

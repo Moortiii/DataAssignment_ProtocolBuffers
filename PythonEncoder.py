@@ -1,8 +1,6 @@
 import re
 import in_pb2
 
-# The parser for this looks ugly, but it's not stupid if it works
-
 def read_puzzle_file(filename):
     with open(filename, "r") as f:
         lines = f.read()
@@ -22,41 +20,70 @@ def read_puzzle_file(filename):
             if line != "":
                 output.append(line)
         
+        # We have no use for the size of the current puzzle
+        output = output[1:]
+
         filtered.append(output)
 
     return filtered
 
 
-def serialize_puzzle_to_file(filename, protocol_buffer):
+def serialize_puzzle_to_file(filename, buffer):
     with open(filename, "wb") as f:
-        f.write(protocol_buffer.SerializeToString())
+        f.write(buffer.SerializeToString())
         
         print(f"Puzzle serialized and written to file '{filename}'. Terminating..")
 
 
-def parse_puzzle(puzzle, puzzle_buffer):
-    # Get the size of the current puzzle
-    size = int(re.findall(r"(\d+)", puzzle[0])[0])
+def add_buffer_neighbor_identifier(neighbors, square_buffer):
+    # Remove duplicate neighbors
+    neighbors = set(neighbors)
 
-    # Remove the line which contains the size now that we have extracted it
-    # Also remove the last empty line
-    puzzle = puzzle[1:]
+    # Map the neighbor different neighbor situations to identifiers
+    # this saves us two bytes when a square has a neighbor both to
+    # its right and down compared to using booleans.
+    if neighbors >= set(["RIGHT", "DOWN"]):
+        square_buffer.neighbors = 3
+    elif neighbors >= set(["DOWN"]):
+        square_buffer.neighbors = 2
+    elif neighbors >= set(["RIGHT"]):
+        square_buffer.neighbors = 1
+    else:
+        square_buffer.neighbors = 0
 
+    return square_buffer
+
+
+def add_buffer_value(value, square_buffer):
+    if value == "_":
+        square_buffer.value = 0
+    else:
+        square_buffer.value = int(value)
+    
+    return square_buffer
+
+
+def get_numbers_and_wildcards(puzzle):
     """
     Retrieve all wildcards (_) and pre-solved numbers. We can set the value
     of the current square based on this and remove it from the array afterwards.
     """
-    numbers = re.findall(r"(\d+|_)", str(puzzle))
+    
+    return re.findall(r"(\d+|_)", str(puzzle))
 
-    # Normalize the puzzle so that we can more easily parse the neighbors
+def parse_puzzle(puzzle, puzzle_buffer):
+    # Grab all the solved numbers and wildcards from the puzzle before we normalize it
+    numbers = get_numbers_and_wildcards(puzzle)
+
+    # Replace all numbers and wildcards with an asterisk to normalize the puzzle
     puzzle = [re.sub(r"(\d+|_)", "*", line) for line in puzzle]
-
-    # Remove the last line which now contains an empty newline
-    #puzzle = puzzle[:-1]
 
     # Parse the current puzzle
     number_line = True
 
+    # Loop through each value in the puzzle and create a square_buffer for each
+    # we only need to find the neighbors to the right and down in order to determine
+    # all of the other neighbors for the puzzle.
     for l_index, line in enumerate(puzzle):
         for c_index, character in enumerate(line):
 
@@ -70,55 +97,32 @@ def parse_puzzle(puzzle, puzzle_buffer):
                         if puzzle[l_index + 1][c_index] == "x":
                             neighbors.append("DOWN")
                     elif c_index == len(line) - 1:
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
                         if puzzle[l_index + 1][c_index] == "x":
                             neighbors.append("DOWN")
                     else:
                         if puzzle[l_index + 1][c_index] == "x":
                             neighbors.append("DOWN")
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
                         if line[c_index + 2] == "x":
                             neighbors.append("RIGHT")
                 elif l_index == len(puzzle) - 1:
                     if c_index == 0:
                         if line[c_index + 2] == "x":
                             neighbors.append("RIGHT")
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
                     elif c_index == len(line) - 1:
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                        pass
                     else:
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
                         if line[c_index + 2] == "x":
                             neighbors.append("RIGHT")
                 else:
                     if c_index == 0:
                         if line[c_index + 2] == "x":
                             neighbors.append("RIGHT")
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
                         if puzzle[l_index + 1][c_index] == "x":
                             neighbors.append("DOWN")
                     elif c_index == len(line) - 1:
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
                         if puzzle[l_index + 1][c_index] == "x":
                             neighbors.append("DOWN")
                     else:
-                        if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
-                        if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
                         if line[c_index + 2] == "x":
                             neighbors.append("RIGHT")
                         if puzzle[l_index + 1][c_index] == "x":
@@ -126,39 +130,23 @@ def parse_puzzle(puzzle, puzzle_buffer):
 
                 square_buffer = puzzle_buffer.squares.add()
 
-                if numbers[0] == "_":
-                    square_buffer.value = 0
-                else:
-                    square_buffer.value = int(numbers[0])
+                square_buffer = add_buffer_neighbor_identifier(neighbors, square_buffer)
+                square_buffer = add_buffer_value(numbers[0], square_buffer)
                 
                 numbers = numbers[1:]
-
-                neighbors = set(neighbors)
-                try:
-                    neighbors.remove("LEFT")
-                    neighbors.remove("UP")
-                except Exception:
-                    print("No neighbors to remove")
-
-                if neighbors >= set(["RIGHT", "DOWN"]):
-                    square_buffer.neighbors = 3
-                elif neighbors >= set(["DOWN"]):
-                    square_buffer.neighbors = 2
-                elif neighbors >= set(["RIGHT"]):
-                    square_buffer.neighbors = 1
-                else:
-                    square_buffer.neighbors = 0
-
-                print(f"Neighbors: {neighbors}. Value: {square_buffer.neighbors}")
-                
             
             number_line = not number_line
 
-puzzles = read_puzzle_file("puzzle_unsolved.txt")
 
-protocol_buffer = in_pb2.Result()
+if __name__ == "__main__":
+    # Protocol buffer to store the results
+    buffer = in_pb2.Result()
 
-for puzzle in puzzles:
-    parse_puzzle(puzzle, protocol_buffer.puzzles.add())
+    # Parse the input files
+    puzzles = read_puzzle_file("puzzle_unsolved.txt")
 
-serialize_puzzle_to_file("puzzle_unsolved.bin", protocol_buffer)
+    # Populate the protocol buffer based on the puzzles
+    [parse_puzzle(puzzle, buffer.puzzles.add()) for puzzle in puzzles]
+
+    # Write the output binary
+    serialize_puzzle_to_file("puzzle_unsolved.bin", buffer)
