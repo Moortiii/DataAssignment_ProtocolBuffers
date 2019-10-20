@@ -25,11 +25,14 @@ object FileHandlerScala {
         
         var square = Square(x, y, puzzle, if(sq.value == 0) (1 to puzzle.size).toList else List(sq.value))
 
-        if(sq.neighborDown)
+        if(sq.neighbors == 3) {
           square = square.addNeighbor(Direction.DOWN)
-
-        if(sq.neighborRight)
           square = square.addNeighbor(Direction.RIGHT)
+        } else if(sq.neighbors == 2) {
+          square = square.addNeighbor(Direction.DOWN)
+        } else if(sq.neighbors == 1) {
+          square = square.addNeighbor(Direction.RIGHT)
+        }
    
         squares :+= square
         

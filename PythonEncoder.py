@@ -133,8 +133,24 @@ def parse_puzzle(puzzle, puzzle_buffer):
                 
                 numbers = numbers[1:]
 
-                square_buffer.neighbor_right = "RIGHT" in neighbors
-                square_buffer.neighbor_down  = "DOWN"  in neighbors
+                neighbors = set(neighbors)
+                try:
+                    neighbors.remove("LEFT")
+                    neighbors.remove("UP")
+                except Exception:
+                    print("No neighbors to remove")
+
+                if neighbors >= set(["RIGHT", "DOWN"]):
+                    square_buffer.neighbors = 3
+                elif neighbors >= set(["DOWN"]):
+                    square_buffer.neighbors = 2
+                elif neighbors >= set(["RIGHT"]):
+                    square_buffer.neighbors = 1
+                else:
+                    square_buffer.neighbors = 0
+
+                print(f"Neighbors: {neighbors}. Value: {square_buffer.neighbors}")
+                
             
             number_line = not number_line
 
