@@ -5,6 +5,27 @@ import in.Result
 import out.SolvedResult
 
 object FileHandlerScala {
+  def addNeighbors(buffer:in.Square, square:Square):Square = {
+    buffer.neighbors match {
+      case 1 => square.setNeighbors(List(Direction.LEFT))
+      case 2 => square.setNeighbors(List(Direction.RIGHT))
+      case 3 => square.setNeighbors(List(Direction.DOWN))
+      case 4 => square.setNeighbors(List(Direction.UP))
+      case 5 => square.setNeighbors(List(Direction.RIGHT, Direction.LEFT))
+      case 6 => square.setNeighbors(List(Direction.LEFT, Direction.UP))
+      case 7 => square.setNeighbors(List(Direction.LEFT, Direction.DOWN))
+      case 8 => square.setNeighbors(List(Direction.RIGHT, Direction.UP))
+      case 9 => square.setNeighbors(List(Direction.RIGHT, Direction.DOWN))
+      case 10 => square.setNeighbors(List(Direction.UP, Direction.DOWN))
+      case 11 => square.setNeighbors(List(Direction.RIGHT, Direction.LEFT, Direction.UP))
+      case 12 => square.setNeighbors(List(Direction.RIGHT, Direction.LEFT, Direction.DOWN))
+      case 13 => square.setNeighbors(List(Direction.LEFT, Direction.UP, Direction.DOWN))
+      case 14 => square.setNeighbors(List(Direction.RIGHT, Direction.UP, Direction.DOWN))
+      case 15 => square.setNeighbors(List(Direction.RIGHT, Direction.UP, Direction.DOWN, Direction.LEFT))
+      case _  => square.setNeighbors(List())
+    }
+  }
+  
   def ParsePuzzles():List[Board] = {
     val neighbors = Result.parseFrom(Files.readAllBytes(Paths.get("puzzle_unsolved.bin")))
     var boards = List[Board]()
@@ -24,13 +45,9 @@ object FileHandlerScala {
         }
         
         var square = Square(x, y, puzzle, if(sq.value == 0) (1 to puzzle.size).toList else List(sq.value))
-
-        if(sq.neighborDown)
-          square = square.addNeighbor(Direction.DOWN)
-
-        if(sq.neighborRight)
-          square = square.addNeighbor(Direction.RIGHT)
-   
+      
+        square = addNeighbors(sq, square)
+        
         squares :+= square
         
         x += 1
@@ -39,6 +56,7 @@ object FileHandlerScala {
       boards :+= Board(squares, puzzle)
     }
     
+    /*
     var parsed = List[Board]()
     
     for(board <- boards) {
@@ -67,8 +85,10 @@ object FileHandlerScala {
       
       parsed :+= temp_board
     }
+    
+    */
 
-    parsed
+    boards
   }
   
   

@@ -30,6 +30,10 @@ case class Square(x:Int, y:Int,
     copy(values = altered_values, solved = altered_values.size == 1)
   }
   
+  def setNeighbors(directions:List[Direction]):Square = {
+    copy(neighbors = directions)
+  }
+  
   def addNeighbor(direction:Direction):Square = {
     copy(neighbors = (neighbors :+ direction).distinct, solved = values.size == 1)
   }

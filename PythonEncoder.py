@@ -3,6 +3,43 @@ import in_pb2
 
 # The parser for this looks ugly, but it's not stupid if it works
 
+def sublist(l1, l2):
+    return set(l1) >= set(l2)
+
+def get_neighbor_identifier(neighbors):
+    if sublist(neighbors, ["L", "R", "U", "D"]):
+        return 15
+    elif sublist(neighbors, ["R", "U", "D"]):
+        return 14
+    elif sublist(neighbors, ["L", "U", "D"]):
+        return 13
+    elif sublist(neighbors, ["L", "R", "D"]):
+        return 12
+    elif sublist(neighbors, ["L", "R", "U"]):
+        return 11
+    elif sublist(neighbors, ["U", "D"]):
+        return 10
+    elif sublist(neighbors, ["R", "D"]):
+        return 9
+    elif sublist(neighbors, ["R", "U"]):
+        return 8
+    elif sublist(neighbors, ["L", "D"]):
+        return 7
+    elif sublist(neighbors, ["L", "U"]):
+        return 6
+    elif sublist(neighbors, ["L", "R"]):
+        return 5
+    elif sublist(neighbors, ["U"]):
+        return 4
+    elif sublist(neighbors, ["D"]):
+        return 3
+    elif sublist(neighbors, ["R"]):
+        return 2
+    elif sublist(neighbors, ["L"]):
+        return 1
+    else:
+        return 0
+
 def read_puzzle_file(filename):
     with open(filename, "r") as f:
         lines = f.read()
@@ -51,9 +88,6 @@ def parse_puzzle(puzzle, puzzle_buffer):
     # Normalize the puzzle so that we can more easily parse the neighbors
     puzzle = [re.sub(r"(\d+|_)", "*", line) for line in puzzle]
 
-    # Remove the last line which now contains an empty newline
-    #puzzle = puzzle[:-1]
-
     # Parse the current puzzle
     number_line = True
 
@@ -66,63 +100,63 @@ def parse_puzzle(puzzle, puzzle_buffer):
                 if(l_index == 0):
                     if c_index == 0:
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
                     elif c_index == len(line) - 1:
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
                     else:
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                 elif l_index == len(puzzle) - 1:
                     if c_index == 0:
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                     elif c_index == len(line) - 1:
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                     else:
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                 else:
                     if c_index == 0:
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
                     elif c_index == len(line) - 1:
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
                     else:
                         if puzzle[l_index - 1][c_index] == "x":
-                            neighbors.append("UP")
+                            neighbors.append("U")
                         if line[c_index - 2] == "x":
-                            neighbors.append("LEFT")
+                            neighbors.append("L")
                         if line[c_index + 2] == "x":
-                            neighbors.append("RIGHT")
+                            neighbors.append("R")
                         if puzzle[l_index + 1][c_index] == "x":
-                            neighbors.append("DOWN")
+                            neighbors.append("D")
 
                 square_buffer = puzzle_buffer.squares.add()
 
@@ -133,9 +167,8 @@ def parse_puzzle(puzzle, puzzle_buffer):
                 
                 numbers = numbers[1:]
 
-                square_buffer.neighbor_right = "RIGHT" in neighbors
-                square_buffer.neighbor_down  = "DOWN"  in neighbors
-            
+                square_buffer.neighbors = get_neighbor_identifier(set(neighbors))
+
             number_line = not number_line
 
 puzzles = read_puzzle_file("puzzle_unsolved.txt")
